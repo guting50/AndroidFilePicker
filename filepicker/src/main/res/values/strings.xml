@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">享发金融</string>
     <string name="confirm">Done</string>
     <string name="no_video_play_app">No App exists for camera!</string>
     <string name="record_audio">Record Audio</string>
