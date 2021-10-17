@@ -23,23 +23,23 @@ import static com.vincent.filepicker.filter.callback.FileLoaderCallbacks.TYPE_VI
 
 public class FileFilter {
     public static void getImages(FragmentActivity activity, FilterResultCallback<ImageFile> callback){
-        activity.getSupportLoaderManager().initLoader(0, null,
+        activity.getSupportLoaderManager().restartLoader(0, null,
                 new FileLoaderCallbacks(activity, callback, TYPE_IMAGE));
     }
 
     public static void getVideos(FragmentActivity activity, FilterResultCallback<VideoFile> callback){
-        activity.getSupportLoaderManager().initLoader(1, null,
+        activity.getSupportLoaderManager().restartLoader(1, null,
                 new FileLoaderCallbacks(activity, callback, TYPE_VIDEO));
     }
 
     public static void getAudios(FragmentActivity activity, FilterResultCallback<AudioFile> callback){
-        activity.getSupportLoaderManager().initLoader(2, null,
+        activity.getSupportLoaderManager().restartLoader(2, null,
                 new FileLoaderCallbacks(activity, callback, TYPE_AUDIO));
     }
 
     public static void getFiles(FragmentActivity activity,
                                 FilterResultCallback<NormalFile> callback, String[] suffix){
-        activity.getSupportLoaderManager().initLoader(3, null,
+        activity.getSupportLoaderManager().restartLoader(3, null,
                 new FileLoaderCallbacks(activity, callback, TYPE_FILE, suffix));
     }
 }
