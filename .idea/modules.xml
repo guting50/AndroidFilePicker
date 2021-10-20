@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AndroidFilePicker.iml" filepath="$PROJECT_DIR$/AndroidFilePicker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/filepicker/filepicker.iml" filepath="$PROJECT_DIR$/filepicker/filepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidFilePicker.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidFilePicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidFilePicker.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidFilePicker.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/filepicker/AndroidFilePicker.filepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/filepicker/AndroidFilePicker.filepicker.iml" />
     </modules>
   </component>
 </project>

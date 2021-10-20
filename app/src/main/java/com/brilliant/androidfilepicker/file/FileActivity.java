@@ -3,6 +3,7 @@ package com.brilliant.androidfilepicker.file;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,8 +68,14 @@ public class FileActivity extends AppCompatActivity {
         selectPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] mSuffix = {"txt"};
-
+                String[] mSuffix = {"doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf"};
+                EditText editText = (EditText) findViewById(R.id.path_et);
+                String path = editText.getText().toString();
+                if (!TextUtils.isEmpty(path)) {
+                    String[] paths = {path};
+                    NormalFilePickActivity.start(FileActivity.this, maxSelectNum, paths, mSuffix, NormalFilePickActivity.REQUEST_FILE);
+                    return;
+                }
                 NormalFilePickActivity.start(FileActivity.this, maxSelectNum, mSuffix, NormalFilePickActivity.REQUEST_FILE);
             }
         });

@@ -16,6 +16,12 @@
 
     <include layout="@layout/layout_number" />
 
+    <EditText
+        android:id="@+id/path_et"
+        android:text="/storage/emulated/0/Android/data/com.tencent.mm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/video_selector"
         android:layout_width="match_parent"

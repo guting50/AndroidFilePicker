@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FilePicker</string>
-
     <string name="max_select_num">可选择图片数量</string>
     <string name="select_picture">选择</string>
     <string name="select_mode">选择模式</string>
     <string name="single">单选</string>
     <string name="multiple">多选</string>
     <string name="show_camera">显示拍照选项</string>
+    <string name="isNeedRecorder">需要录音机吗</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="enable_preview">打开预览选项</string>

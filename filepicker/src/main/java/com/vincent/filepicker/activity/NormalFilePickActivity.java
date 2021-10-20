@@ -46,11 +46,13 @@ public class NormalFilePickActivity extends BaseActivity {
     private NormalFilePickAdapter mAdapter;
     private ArrayList<NormalFile> mSelectedList = new ArrayList<>();
     private ProgressBar mProgressBar;
-    private String[] mSuffix;
+    private String[] mSuffix, mPaths;
 
     public final static String EXTRA_MAX_SELECT_NUM = "MaxSelectNum";
 
     public final static String EXTRA_STUFFIX = "mSuffix";
+
+    public final static String EXTRA_PATHS = "PATHS";
 
     @Override
     void permissionGranted() {
@@ -67,13 +69,21 @@ public class NormalFilePickActivity extends BaseActivity {
      *
      * @param activity
      * @param maxSelectNum 最大选择数量
-     * @param mSuffix 文件格式集合
-     * @param requestCode   请求码
+     * @param mSuffix      文件格式集合
+     * @param requestCode  请求码
      */
     public static void start(Activity activity, int maxSelectNum, String[] mSuffix, int requestCode) {
         Intent intent = new Intent(activity, NormalFilePickActivity.class);
         intent.putExtra(EXTRA_MAX_SELECT_NUM, maxSelectNum);
         intent.putExtra(EXTRA_STUFFIX, mSuffix);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void start(Activity activity, int maxSelectNum, String[] paths, String[] mSuffix, int requestCode) {
+        Intent intent = new Intent(activity, NormalFilePickActivity.class);
+        intent.putExtra(EXTRA_MAX_SELECT_NUM, maxSelectNum);
+        intent.putExtra(EXTRA_STUFFIX, mSuffix);
+        intent.putExtra(EXTRA_PATHS, paths);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -84,6 +94,7 @@ public class NormalFilePickActivity extends BaseActivity {
 
         mMaxNumber = getIntent().getIntExtra(EXTRA_MAX_SELECT_NUM, DEFAULT_MAX_NUMBER);
         mSuffix = getIntent().getStringArrayExtra(EXTRA_STUFFIX);
+        mPaths = getIntent().getStringArrayExtra(EXTRA_PATHS);
         super.onCreate(savedInstanceState);
 
     }
@@ -132,7 +143,7 @@ public class NormalFilePickActivity extends BaseActivity {
     }
 
     private void loadData() {
-        FileFilter.getFiles(this, new FilterResultCallback<NormalFile>() {
+        FilterResultCallback callback = new FilterResultCallback<NormalFile>() {
             @Override
             public void onResult(List<Directory<NormalFile>> directories) {
                 mProgressBar.setVisibility(View.GONE);
@@ -140,7 +151,6 @@ public class NormalFilePickActivity extends BaseActivity {
                 for (Directory<NormalFile> directory : directories) {
                     list.addAll(directory.getFiles());
                 }
-
                 for (NormalFile file : mSelectedList) {
                     int index = list.indexOf(file);
                     if (index != -1) {
@@ -150,7 +160,12 @@ public class NormalFilePickActivity extends BaseActivity {
 
                 mAdapter.refresh(list);
             }
-        }, mSuffix);
+        };
+        if (mPaths != null && mPaths.length > 0) {
+            FileFilter.getFiles(this,mPaths, callback, mSuffix);
+        } else {
+            FileFilter.getFiles(this, callback, mSuffix);
+        }
     }
 
     @Override
