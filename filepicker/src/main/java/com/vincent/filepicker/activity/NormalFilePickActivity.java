@@ -2,12 +2,16 @@ package com.vincent.filepicker.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.vincent.filepicker.Constant;
 import com.vincent.filepicker.DividerListItemDecoration;
+import com.vincent.filepicker.FileUriUtils;
 import com.vincent.filepicker.R;
 import com.vincent.filepicker.adapter.NormalFilePickAdapter;
 import com.vincent.filepicker.adapter.OnSelectStateListener;
@@ -47,6 +52,7 @@ public class NormalFilePickActivity extends BaseActivity {
     private ArrayList<NormalFile> mSelectedList = new ArrayList<>();
     private ProgressBar mProgressBar;
     private String[] mSuffix, mPaths;
+    public static boolean isRecursion = true;
 
     public final static String EXTRA_MAX_SELECT_NUM = "MaxSelectNum";
 
@@ -59,7 +65,11 @@ public class NormalFilePickActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                loadData();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    loadData1();
+                } else {
+                    loadData();
+                }
             }
         }, 1000);
     }
@@ -162,7 +172,7 @@ public class NormalFilePickActivity extends BaseActivity {
             }
         };
         if (mPaths != null && mPaths.length > 0) {
-            FileFilter.getFiles(this,mPaths, callback, mSuffix);
+            FileFilter.getFiles(this, mPaths, callback, mSuffix);
         } else {
             FileFilter.getFiles(this, callback, mSuffix);
         }
@@ -186,5 +196,37 @@ public class NormalFilePickActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void loadData1() {
+        FileUriUtils.startForRoot(this, 222);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 222) {
+            DocumentFile documentFile = DocumentFile.fromTreeUri(this, data.getData());
+            FilterResultCallback callback = new FilterResultCallback<NormalFile>() {
+                @Override
+                public void onResult(List<Directory<NormalFile>> directories) {
+                    mProgressBar.setVisibility(View.GONE);
+                    List<NormalFile> list = new ArrayList<>();
+                    for (Directory<NormalFile> directory : directories) {
+                        list.addAll(directory.getFiles());
+                    }
+                    for (NormalFile file : mSelectedList) {
+                        int index = list.indexOf(file);
+                        if (index != -1) {
+                            list.get(index).setSelected(true);
+                        }
+                    }
+
+                    mAdapter.refresh(list);
+                }
+            };
+
+            FileUriUtils.getFiles(this, documentFile, callback, mSuffix, isRecursion);
+        }
     }
 }

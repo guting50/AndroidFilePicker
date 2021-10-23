@@ -2,6 +2,7 @@ package com.vincent.filepicker.filter.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.provider.DocumentFile;
 
 /**
  * Created by Vincent Woo
@@ -11,6 +12,16 @@ import android.os.Parcelable;
 
 public class NormalFile extends BaseFile implements Parcelable {
     private String mimeType;
+
+    public DocumentFile getDocumentFile() {
+        return documentFile;
+    }
+
+    public void setDocumentFile(DocumentFile documentFile) {
+        this.documentFile = documentFile;
+    }
+
+    private DocumentFile documentFile;
 
     public String getMimeType() {
         return mimeType;
